@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-/*Í·ÎÄ¼şÉùÃ÷*/
+/*å¤´æ–‡ä»¶å£°æ˜*/
 typedef LONG NTSTATUS;
 
 #define STATUS_SUCCESS                  ((NTSTATUS)0x00000000L)   
@@ -130,27 +130,27 @@ typedef enum _KWAIT_REASON
 
 typedef struct _IO_COUNTERS_EX 
 {
-	LARGE_INTEGER ReadOperationCount;   //I/O¶Á²Ù×÷ÊıÄ¿
-	LARGE_INTEGER WriteOperationCount;  //I/OĞ´²Ù×÷ÊıÄ¿
-	LARGE_INTEGER OtherOperationCount;  //I/OÆäËû²Ù×÷ÊıÄ¿
-	LARGE_INTEGER ReadTransferCount;    //I/O¶ÁÊı¾İÊıÄ¿
-	LARGE_INTEGER WriteTransferCount;   //I/OĞ´Êı¾İÊıÄ¿
-	LARGE_INTEGER OtherTransferCount;   //I/OÆäËû²Ù×÷Êı¾İÊıÄ¿
+	LARGE_INTEGER ReadOperationCount;   //I/Oè¯»æ“ä½œæ•°ç›®
+	LARGE_INTEGER WriteOperationCount;  //I/Oå†™æ“ä½œæ•°ç›®
+	LARGE_INTEGER OtherOperationCount;  //I/Oå…¶ä»–æ“ä½œæ•°ç›®
+	LARGE_INTEGER ReadTransferCount;    //I/Oè¯»æ•°æ®æ•°ç›®
+	LARGE_INTEGER WriteTransferCount;   //I/Oå†™æ•°æ®æ•°ç›®
+	LARGE_INTEGER OtherTransferCount;   //I/Oå…¶ä»–æ“ä½œæ•°æ®æ•°ç›®
 } IO_COUNTERS_EX, *PIO_COUNTERS_EX;
 
 typedef struct _VM_COUNTERS
 {
-	ULONG PeakVirtualSize;              //ĞéÄâ´æ´¢·åÖµ´óĞ¡   
-	ULONG VirtualSize;                  //ĞéÄâ´æ´¢´óĞ¡   
-	ULONG PageFaultCount;               //Ò³¹ÊÕÏÊıÄ¿   
-	ULONG PeakWorkingSetSize;           //¹¤×÷¼¯·åÖµ´óĞ¡   
-	ULONG WorkingSetSize;               //¹¤×÷¼¯´óĞ¡   
-	ULONG QuotaPeakPagedPoolUsage;      //·ÖÒ³³ØÊ¹ÓÃÅä¶î·åÖµ   
-	ULONG QuotaPagedPoolUsage;          //·ÖÒ³³ØÊ¹ÓÃÅä¶î   
-	ULONG QuotaPeakNonPagedPoolUsage;   //·Ç·ÖÒ³³ØÊ¹ÓÃÅä¶î·åÖµ   
-	ULONG QuotaNonPagedPoolUsage;       //·Ç·ÖÒ³³ØÊ¹ÓÃÅä¶î   
-	ULONG PagefileUsage;                //Ò³ÎÄ¼şÊ¹ÓÃÇé¿ö   
-	ULONG PeakPagefileUsage;            //Ò³ÎÄ¼şÊ¹ÓÃ·åÖµ   
+	ULONG PeakVirtualSize;              //è™šæ‹Ÿå­˜å‚¨å³°å€¼å¤§å°   
+	ULONG VirtualSize;                  //è™šæ‹Ÿå­˜å‚¨å¤§å°   
+	ULONG PageFaultCount;               //é¡µæ•…éšœæ•°ç›®   
+	ULONG PeakWorkingSetSize;           //å·¥ä½œé›†å³°å€¼å¤§å°   
+	ULONG WorkingSetSize;               //å·¥ä½œé›†å¤§å°   
+	ULONG QuotaPeakPagedPoolUsage;      //åˆ†é¡µæ± ä½¿ç”¨é…é¢å³°å€¼   
+	ULONG QuotaPagedPoolUsage;          //åˆ†é¡µæ± ä½¿ç”¨é…é¢   
+	ULONG QuotaPeakNonPagedPoolUsage;   //éåˆ†é¡µæ± ä½¿ç”¨é…é¢å³°å€¼   
+	ULONG QuotaNonPagedPoolUsage;       //éåˆ†é¡µæ± ä½¿ç”¨é…é¢   
+	ULONG PagefileUsage;                //é¡µæ–‡ä»¶ä½¿ç”¨æƒ…å†µ   
+	ULONG PeakPagefileUsage;            //é¡µæ–‡ä»¶ä½¿ç”¨å³°å€¼   
 
 } VM_COUNTERS, *PVM_COUNTERS;
 
@@ -182,7 +182,7 @@ typedef struct _SYSTEM_THREADS
 
 } SYSTEM_THREADS, *PSYSTEM_THREADS;
 
-//½ø³ÌÊı¾İ½á¹¹
+//è¿›ç¨‹æ•°æ®ç»“æ„
 typedef struct _SYSTEM_PROCESSES
 {
 	ULONG NextEntryDelta;
@@ -203,7 +203,7 @@ typedef struct _SYSTEM_PROCESSES
 
 } SYSTEM_PROCESSES, *PSYSTEM_PROCESSES;
 
-//Ä£¿éÊı¾İ½á¹¹
+//æ¨¡å—æ•°æ®ç»“æ„
 typedef struct _SYSTEM_MODULE_INFORMATION
 {
 	ULONG Reserved[2];
@@ -217,7 +217,7 @@ typedef struct _SYSTEM_MODULE_INFORMATION
 	CHAR ImageName[256];
 } SYSTEM_MODULE_INFORMATION, *PSYSTEM_MODULE_INFORMATION;
 
-//¾ä±úÊı¾İ½á¹¹
+//å¥æŸ„æ•°æ®ç»“æ„
 typedef struct _SYSTEM_HANDLE_INFORMATION
 {
 	ULONG            ProcessId;
@@ -265,7 +265,7 @@ typedef struct _OBJECT_NAME_INFORMATION
 	UNICODE_STRING Name;
 } OBJECT_NAME_INFORMATION, *POBJECT_NAME_INFORMATION;
 
-//¶¨Òåº¯ÊıÖ¸Õë
+//å®šä¹‰å‡½æ•°æŒ‡é’ˆ
 typedef NTSTATUS
 (NTAPI *ZWQUERYSYSTEMINFORMATION)(
 	IN SYSTEM_INFORMATION_CLASS SystemInformationClass,

@@ -7,14 +7,14 @@ static HMODULE g_Module = 0;
 static ZWQUERYSYSTEMINFORMATION ZwQuerySystemInformation = 0;
 static NTQUERYOBJECT NtQueryObject = 0;
 
-//Í¨¹ı×¢²á±í»ñÈ¡Î¢ĞÅ³ÌĞòÂ·¾¶
+//é€šè¿‡æ³¨å†Œè¡¨è·å–å¾®ä¿¡ç¨‹åºè·¯å¾„
 static wchar_t* GetWeChatPCPath()
 {
 	static wchar_t path[256] = { 0 };
 	//printf("%d\r\n", lstrlenW(path));
 	if (path[0] != '\0')return path;
 	HKEY hKey = NULL;
-	if (ERROR_SUCCESS != RegOpenKey(HKEY_CURRENT_USER, LR"(Software\Tencent\WeChat)", &hKey)) {
+	if (ERROR_SUCCESS != RegOpenKey(HKEY_CURRENT_USER, LR"(Software\Tencent\Weixin)", &hKey)) {
 		return nullptr;
 	}
 
@@ -24,11 +24,11 @@ static wchar_t* GetWeChatPCPath()
 		return nullptr;
 	}
 
-	wcscat_s(path, 256, LR"(\WeChat.exe)");
+	wcscat_s(path, 256, LR"(\Weixin.exe)");
 	return path;
 }
 
-//¸´ÖÆ¾ä±ú
+//å¤åˆ¶å¥æŸ„
 static HANDLE DuplicateHandleEx(DWORD pid, HANDLE handle, DWORD flags)
 {
 	HANDLE hHandle = NULL;
@@ -43,7 +43,7 @@ static HANDLE DuplicateHandleEx(DWORD pid, HANDLE handle, DWORD flags)
 	return hHandle;
 }
 
-//È¨ÏŞÌáÉı
+//æƒé™æå‡
 static BOOL ElevatePrivileges()
 {
 	HANDLE hToken;
@@ -60,13 +60,13 @@ static BOOL ElevatePrivileges()
 	return TRUE;
 }
 
-//Ã¶¾ÙÄ¿±ê½ø³ÌÁĞ±í
-std::vector<unsigned long> TraverseWechatProcesses(const wchar_t *tragetName = LR"(WeChat.exe)")
+//æšä¸¾ç›®æ ‡è¿›ç¨‹åˆ—è¡¨
+std::vector<unsigned long> TraverseWechatProcesses(const wchar_t *tragetName = LR"(Weixin.exe)")
 {
 	ULONG bufferSize = 0;
 
 	std::vector<unsigned long> set;
-	//»ñÈ¡ËùĞèÄÚ´æ´óĞ¡
+	//è·å–æ‰€éœ€å†…å­˜å¤§å°
 	NTSTATUS status = ZwQuerySystemInformation(SystemProcessesAndThreadsInformation, NULL, 0, &bufferSize);
 	if (status == STATUS_INFO_LENGTH_MISMATCH) {
 		if (bufferSize) {
@@ -91,8 +91,8 @@ std::vector<unsigned long> TraverseWechatProcesses(const wchar_t *tragetName = L
 	return set;
 }
 
-//Ã¶¾ÙÈ«¾Ö¾ä±ú±í²¢¹Ø±Õ·ûºÏÖ¸¶¨Ä¿±êµÄ»¥³âÌå
-static void DetachTargetHandle(const wchar_t *handleType = LR"(Mutant)", const wchar_t *handleName = LR"(_WeChat_App_Instance_Identity_Mutex_Name)")
+//æšä¸¾å…¨å±€å¥æŸ„è¡¨å¹¶å…³é—­ç¬¦åˆæŒ‡å®šç›®æ ‡çš„äº’æ–¥ä½“
+static void DetachTargetHandle(const wchar_t *handleType = LR"(Mutant)", const wchar_t *handleName = LR"(XWeChat_App_Instance_Identity_Mutex_Name)")
 {
 	ULONG bufferSize = NULL;
 	PVOID pBuffer = NULL;
@@ -127,7 +127,7 @@ static void DetachTargetHandle(const wchar_t *handleType = LR"(Mutant)", const w
 				{
 					for (size_t i = 0; i < set.size(); ++i) {
 
-					
+
 					if (pHandleInfo->Handles[idx].UniqueProcessId == set[i]) {
 						//printf("%8x\r\n", pHandleInfo->Handles[idx].UniqueProcessId);
 						HANDLE hHandle = DuplicateHandleEx(pHandleInfo->Handles[idx].UniqueProcessId, (HANDLE)pHandleInfo->Handles[idx].HandleValue, DUPLICATE_SAME_ACCESS);
@@ -189,22 +189,22 @@ static void DetachTargetHandle(const wchar_t *handleType = LR"(Mutant)", const w
 	}
 }
 
-//¹¹Ôìº¯Êı ¼ÓÔØº¯ÊıµØÖ·
+//æ„é€ å‡½æ•° åŠ è½½å‡½æ•°åœ°å€
 WeChatPC::WeChatPC()
 {
 	g_Module = GetModuleHandle(L"ntdll.dll");
 	if (g_Module == NULL) {
-		throw R"(ntdd.dll Ä£¿éÎ´¼ÓÔØ)";
+		throw R"(ntdd.dll æ¨¡å—æœªåŠ è½½)";
 	}
 
 	ZwQuerySystemInformation = ZwQuerySystemInformation = (ZWQUERYSYSTEMINFORMATION)GetProcAddress(g_Module, "ZwQuerySystemInformation");
 	if (ZwQuerySystemInformation == NULL) {
-		throw R"(ZwQuerySystemInformation º¯ÊıµØÖ·»ñÈ¡Ê§°Ü)";
+		throw R"(ZwQuerySystemInformation å‡½æ•°åœ°å€è·å–å¤±è´¥)";
 	}
 
 	NtQueryObject = (NTQUERYOBJECT)GetProcAddress(g_Module, "NtQueryObject");
 	if (NtQueryObject == NULL) {
-		throw R"(NtQueryObject º¯ÊıµØÖ·»ñÈ¡Ê§°Ü)";
+		throw R"(NtQueryObject å‡½æ•°åœ°å€è·å–å¤±è´¥)";
 	}
 }
 
@@ -213,7 +213,7 @@ WeChatPC::~WeChatPC()
 	FreeModule(g_Module);
 }
 
-//Æô¶¯Î¢ĞÅ
+//å¯åŠ¨å¾®ä¿¡
 void WeChatPC::Start()
 {
 	STARTUPINFO si = { sizeof(si) };

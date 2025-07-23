@@ -5,15 +5,22 @@
 ### 使用说明
 运行 `WeChatPC.exe` 即可。
 
+### 微信4.0支持
+支持微信4.0.6.21版本，其余的版本号各位自行测试，把以往的WeChat名称变更为Weixin，互斥锁的名称也有变更
+
+用火绒安全工具手动关闭这个Mutan句柄，既可实现多开
+
+![](./images/9e665f02-856c-4f7b-b829-d9b6ca4dcdf9.png)
+
 ### 主要特征
 * 支持无限多开。
 * 一键启动微信。
 
 ### 下载地址
-https://github.com/cheungxiongwei/WeChatPC/releases/download/1.0/WeChatPC.rar
+https://github.com/anyiblog/WeixinUnlockMutex/releases/download/1.0/WeChatPC.exe
 
 ### 源代码编译
-`git clone https://github.com/cheungxiongwei/WeChatPC.git`
+`git clone https://github.com/anyiblog/WeixinUnlockMutex.git`
 
 打开 `WeChatPC` 目录。
 
@@ -41,3 +48,5 @@ https://www.geoffchappell.com/index.htm
 
 ### 声明
 本项目仅供技术研究，请勿用于任何商业用途，请勿用于非法用途，如有任何人凭此做何非法事情，均于作者无关，特此声明
+
+感谢 [cheungxiongwei](https://github.com/cheungxiongwei/WeChatPC) 的开源贡献

@@ -1,6 +1,6 @@
 .vs
+.idea
 Debug
-Release
 WeChatPC/Debug
 WeChatPC/Release
 WeChatPC/WeChatPC.vcxproj.user
